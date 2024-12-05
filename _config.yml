@@ -1,7 +1,7 @@
 # Site settings
-title: Richard Feynman
-email: richard@university.edu
-description: Academic webpage of Dr. Richard Feynman
+title: Zhixuan Zhang
+email: zz3156@columbia.edu
+description: Academic webpage of Zhixuan Zhang
 baseurl: ""
 url: ""
 
@@ -12,18 +12,18 @@ url: ""
 
 # Footer info
 affiliation: >
-  Richard Feynman<br/>
-  Professor of Physics<br/>
-  California Institute of Technology
+  Zhixuan Zhang<br/>
+  MSEE<br/>
+  Columbia University
 
 location: >
-  California Institute of Technology<br/>
-  1200 E California Blvd<br/>
-  Pasadena, CA 91125
+  Columbia Univerisity<br/>
+  116th Broadway<br/>
+  New York, NY 10027
 
 contact: >
-  <a href="mailto:richard@university.edu" target="_blank"><i class="fa fa-envelope fa-1x"></i> Contact Richard via email</a> <br/>
-  <a href="https://github.com/sbryngelson/academic-website-template"><i class="fa fa-github fa-1x"></i> Use this site as a template!</a>
+  <a href="mailto:zz3156@columbia.edu" target="_blank"><i class="fa fa-envelope fa-1x"></i> Contact Zhixuan via email</a> <br/>
+  <a href="https://zhixuan-z.github.io"><i class="fa fa-github fa-1x"></i> github personal page</a>
 
 # Pages shown in navbar
 nav_pages:
