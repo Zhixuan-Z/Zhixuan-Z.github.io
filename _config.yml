@@ -62,8 +62,8 @@ kramdown:
 plugins: ["jekyll/scholar"]
 
 scholar:
-  last_name: Doe
-  first_name: [John]
+  last_name: Zhang
+  first_name: [Zhixuan]
 
   style: citesty
   locale: en
