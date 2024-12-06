@@ -1,8 +1,8 @@
-- name: Dr. Richard Feynman
-  photo: personal.jpg
-  info: Richard C. Tolman Professor, California Institute of Technology
-  email: richard@university.edu
-  github: https://github.com/
+- name: Zhixuan Zhang
+  photo: personal.png
+  info: Zhixuan Zhang, Columbia University
+  email: zz3156@columbia.edu
+  github: https://github.com/Zhixuan-Z
   researchgate: https://www.researchgate.net/
   scholar: https://scholar.google.com/citations?user=B7vSqZsAAAAJ
   cv: cv/cv.pdf
