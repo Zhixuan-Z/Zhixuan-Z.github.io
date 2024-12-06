@@ -7,6 +7,6 @@ permalink: /teaching/
 
 ## Teaching
 
-* Introduction to Physics (1961--63) [Textbook here!](https://www.feynmanlectures.caltech.edu/)
+* Teaching Assistant: [EECS 6894: Hardware/Software Co-Design for Data Center Processing](https://wwwapp.cc.columbia.edu/cu/bulletin/uwb/subj/EECS/E6894-20243-001/)
 
 
