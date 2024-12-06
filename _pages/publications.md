@@ -1,42 +1,28 @@
-
 ---
-title: "Research"
+title: "Publications"
 layout: gridlay
 sitemap: false
-permalink: /research/
+permalink: /publications/
+years: [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
 ---
+<link rel="stylesheet" href="{{ '/assets/css/responsive.css' | relative_url }}">
 
-<style>
-img{
-  border-radius: 10px;
-}
-.col-md-3 {
-  margin-top:10px;
-  margin-bottom:10px;
-  padding:0px;
-  display:block;
-  overflow:hidden;
-  text-align:center;
-  display: table-cell;
-  background: white;
-  border-radius: 20px;
-  height: auto;
-}
-iframe {
-  margin:0;
-  padding:0;
-  width: 175px;
-  display: inline;
-  vertical-align: middle;
-}
-</style>
 
-## Research
+<!-- # Publications -->
 
 <div class="jumbotron">
-<div class="col-md-12 col-sm-12">
-<h4>Example Research</h4>
 
-Example description
+
+{% bibliography --query @*[year!=0] --group_by year %}
+
 </div>
+
+---
+
+<div class="jumbotron">
+
+### Under Review
+
+{% bibliography --query @*[year=0] %}
+
 </div>
