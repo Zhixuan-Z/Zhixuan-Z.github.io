@@ -1,17 +1,17 @@
 - name: Zhixuan Zhang
   photo: personal.png
-  info: Zhixuan Zhang, Columbia University
+  info: MSEE, Columbia University
   email: zz3156@columbia.edu
   github: https://github.com/Zhixuan-Z
-  researchgate: https://www.researchgate.net/
-  scholar: https://scholar.google.com/citations?user=B7vSqZsAAAAJ
+  #researchgate: https://www.researchgate.net/
+  #scholar: https://scholar.google.com/citations?user=B7vSqZsAAAAJ
   cv: cv/cv.pdf
   # Change the items in "education" you have (up to 6)
   education:
     [
-      "(1942) Ph.D. Physics, Princeton University",
-      "(1939) B.S. Physics, Massachusetts Institute of Technology",
+      "(2023) M.S. Electrical Engineering, Columbia University",
+      "(2019) B.S. Computer Science, China Agricultural University",
     ]
 
   educationshort:
-    ["(1942) Ph.D. Physics, Princeton", "(1939) B.S. Physics, MIT"]
+    ["(2023) M.S. EE, Columbia", "(2019) B.S. CS, CAU"]
