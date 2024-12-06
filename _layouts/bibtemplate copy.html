@@ -1,92 +1,215 @@
 ---
 ---
 
+<link rel="stylesheet" href="{{ '/assets/css/bibliography.css' | relative_url }}">
 
-<style>
-.btn{
-    margin-bottom:5px;
-    padding-top:0px;
-    padding-bottom:0px;
-    padding-left:15px;
-    padding-right:15px;
-    height:20px
-}
+<div class="bib-entry">
+  <!-- Title -->
+  <div class="bib-title">
+    <a href="{{ entry.doi | prepend: 'http://doi.org/' }}" target="_blank" rel="noopener">
+      {{ entry.title }}
+    </a>
+  </div>
 
-pre{
-    white-space: pre-wrap;  
-    white-space: -moz-pre-wrap; 
-    white-space: -pre-wrap; 
-    white-space: -o-pre-wrap; 
-    word-wrap: break-word; 
-    width:100%; overflow-x:auto;
-}
-</style>
+  <!-- Authors -->
+  <div class="bib-authors">
+    {{ entry.author | 
+      replace_first: 'Arya, S. V.', '<b>Arya, S. V.</b>' | 
+      replace_first: 'Arya, S.', '<b>Arya, S.</b>' | 
+      replace_first: 'Arya SV', '<b>Arya SV</b>' | 
+      replace_first: 'Arya S', '<b>Arya S</b>' | 
+      replace_first: 'Shivvrat', '<b>Shivvrat</b>' | 
+      replace_first: 'Arya', '<b>Arya</b>' | 
+      replace_first: 'Oral', '<b>Oral</b>' 
+    }}
+  </div>
 
+  <!-- Venue/Journal -->
+  <div class="bib-venue">
+    {% if entry.journal or entry.booktitle %}
+      In 
+      {% if entry.journal %}
+        {{ entry.journal | replace: '(', '<b>(' | replace: ')', ')</b>' }}
+      {% elsif entry.booktitle %}
+        {{ entry.booktitle | replace: '(', '<b>(' | replace: ')', ')</b>' }}
+      {% endif %}
+      , {{ entry.year }}
+    {% endif %}
+  </div>
 
-<div class="text-justify">{{reference}}</div>
+  <!-- Action Buttons and Award Section -->
+  <div class="bib-actions-container">
+    <div class="bib-actions">
+      {% if entry.file %}
+        {% assign bibfile = "/papers/" | append: entry.file %}
+        {% assign bibtest = false %}
+        {% for file in site.static_files %}
+          {% if file.path contains bibfile %}
+            {% assign bibtest = true %}
+          {% endif %}
+        {% endfor %}
+        {% if bibtest %}
+          <a href="{{ site.url }}{{ site.baseurl }}/papers/{{ entry.file }}" target="_blank">
+            <button class="btn btn-pdf" onclick="handlePdfClick(this)" aria-label="Download PDF">
+              <i class="fas fa-file-pdf" aria-hidden="true"></i>
+              <span class="btn-text">PDF</span>
+            </button>
+          </a>
+        {% endif %}
+      {% endif %}
 
-<!-- You can use the below to make your name bold -->
-<!-- {{reference | replace_first: 'Bryngelson, S. H.', '<b>Bryngelson, S. H.</b>' | replace_first: 'Bryngelson, S.', '<b>Bryngelson, S.</b>' }}</div> -->
+      {% if entry.doi %}
+        {% if entry.type == 'unpublished' %}
+          <a href="{{ entry.doi | prepend: 'https://arxiv.org/abs/' }}" target="_blank">
+            <button class="btn btn-arxiv">
+              <i class="ai ai-arxiv"></i> ARXIV
+            </button>
+          </a>
+        {% else %}
+          <a href="{{ entry.doi | prepend: 'http://doi.org/' }}" target="_blank">
+            <button class="btn btn-doi" data-tooltip="View on DOI">
+              <i class="ai ai-doi"></i> DOI
+            </button>
+          </a>
+        {% endif %}
+      {% endif %}
 
-{% assign bibtest = false %}
-{% if entry.file %}
-{% assign bibfile = "/papers/" | append: entry.file %}
-{% for file in site.static_files %}
-  {% if file.path contains bibfile %}
-   {% assign bibtest = true %}
+      {% if entry.code %}
+        <a href="{{ entry.code }}" target="_blank">
+          <button class="btn btn-code">
+            <i class="fas fa-code"></i> CODE
+          </button>
+        </a>
+      {% endif %}
+
+      {% if entry.website %}
+        <a href="{{ entry.website }}" target="_blank">
+          <button class="btn btn-website">
+            <i class="fas fa-globe"></i> WEBSITE
+          </button>
+        </a>
+      {% endif %}
+
+      {% if entry.type == 'unpublished' or entry.type == 'article' or entry.type == 'thesis' or entry.type == 'inproceedings' or entry.type == 'report' or entry.type == 'workshop' %}
+        <button class="btn btn-bib" onclick="toggleBibtex{{entry.key}}()">
+          <i class="fas fa-quote-right"></i> BIB
+        </button>
+      {% endif %}
+
+      {% if entry.abstract %}
+        <button class="btn btn-abstract" onclick="toggleAbstract{{entry.key}}()">
+          <i class="fas fa-align-left"></i> ABSTRACT
+        </button>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if entry.comment or entry.certificate %}
+    <div class="paper-comment-container">
+      {% if entry.comment %}
+        <div class="paper-comment">
+          <div class="award-icon">
+            <i class="fas fa-award"></i>
+          </div>
+          <div class="award-content">
+            <span class="award-text">{{entry.comment}}</span>
+          </div>
+        </div>
+      {% endif %}
+      
+      {% if entry.certificate %}
+        <div class="certificate-container">
+          <a href="{{ entry.certificate }}" target="_blank">
+            <button class="btn btn-certificate">
+              <i class="fas fa-certificate"></i> CERTIFICATE
+            </button>
+          </a>
+        </div>
+      {% endif %}
+    </div>
   {% endif %}
-{% endfor %}
-{% endif %}
 
-{% if bibtest %}
-<a href="{{ site.url }}{{ site.baseurl }}/papers/{{ entry.file }}" target="_blank"><button class="btn btn-success btm-sm">PDF</button></a>
-{% endif %}
+  <!-- Bibtex Content -->
+  {% if entry.abstract %}
+    <div id="a{{entry.key}}" class="bib-content bibtex-content" aria-label="BibTeX citation">
+      <div class="content-header">
+        <span>BibTeX Citation</span>
+        <button class="copy-btn" onclick="copyToClipboard('a{{entry.key}}')" aria-label="Copy citation">
+          <i class="fas fa-copy"></i>
+        </button>
+      </div>
+      <pre><code>{{ entry.bibtex }}</code></pre>
+    </div>
+  {% else %}
+    <div id="a{{entry.key}}" class="bib-content bibtex-content">
+      <pre>{{ entry.bibtex }}</pre>
+    </div>
+  {% endif %}
 
-{% if entry.doi %}
-{% if entry.type == 'unpublished' %}
-<a href="{{ entry.doi | prepend: 'https://arxiv.org/abs/' }}" target="_blank"><button class="btn btn-primary btm-sm">ARXIV</button></a>
-{% else %}
-<a href="{{ entry.doi | prepend: 'http://doi.org/' }}" target="_blank"><button class="btn btn-primary btm-sm">DOI</button></a>
-{% endif %}
-{% endif %}
-
-{% if entry.type == 'unpublished' or entry.type == 'article' or  entry.type == 'thesis' or entry.type == 'inproceedings' or entry.type == 'report' %}
-<button class="btn btn-danger btm-sm"  onclick="toggleBibtex{{entry.key}}()">BIB</button>
-{% endif %}
-
-{% if entry.abstract %}
-<button class="btn btn-warning btm-sm"  onclick="toggleAbstract{{entry.key}}()">ABSTRACT</button>
-{% endif %}
-
-{% if entry.abstract %}
-<div id="a{{entry.key}}" style="display: none; background-color:cyan; border-radius:5px; padding:10px; margin-bottom:20px;">
-<pre>{{ entry.bibtex | remove: "entry.abstract" }}</pre>
-</div>
-{% else %}
-<div id="a{{entry.key}}" style="display: none; background-color:cyan; border-radius:5px; padding:10px; margin-bottom:20px;">
-<pre>{{ entry.bibtex }}</pre>
-</div>
-{% endif %}
-
-<div id="b{{entry.key}}" style="display: none; background-color:cyan; border-radius:5px; padding:10px; margin-bottom:20px;">
-<pre>{{entry.abstract}}</pre>
+  <!-- Abstract Content -->
+  <div id="b{{entry.key}}" class="bib-content abstract-content">
+    <div class="content-header">
+      <span>Abstract</span>
+      <button class="copy-btn" onclick="copyToClipboard('b{{entry.key}}')" aria-label="Copy abstract">
+        <i class="fas fa-copy"></i>
+      </button>
+    </div>
+    <pre>{{entry.abstract}}</pre>
+  </div>
 </div>
 
 <script>
-function toggleBibtex{{entry.key}}(parameter) {
-    var x= document.getElementById('a{{entry.key}}');
-    if (x.style.display === 'none') {
-        x.style.display = 'block';
-    } else {
-        x.style.display = 'none';
-    }
+function toggleBibtex{{entry.key}}() {
+  toggleElement('a{{entry.key}}');
 }
-function toggleAbstract{{entry.key}}(parameter) {
-    var x= document.getElementById('b{{entry.key}}');
-    if (x.style.display === 'none') {
-        x.style.display = 'block';
-    } else {
-        x.style.display = 'none';
-    }
+
+function toggleAbstract{{entry.key}}() {
+  toggleElement('b{{entry.key}}');
+}
+
+function toggleElement(elementId) {
+  const element = document.getElementById(elementId);
+  if (element.style.display === 'none' || !element.style.display) {
+    element.style.display = 'block';
+    element.style.animation = 'slideDown 0.3s ease-out';
+  } else {
+    element.style.animation = 'slideUp 0.3s ease-out';
+    setTimeout(() => {
+      element.style.display = 'none';
+    }, 280);
+  }
+}
+
+async function copyToClipboard(elementId) {
+  const element = document.getElementById(elementId);
+  const btn = element.querySelector('.copy-btn');
+  const text = element.querySelector('pre').textContent;
+  
+  try {
+    await navigator.clipboard.writeText(text);
+    btn.innerHTML = '<i class="fas fa-check"></i>';
+    btn.classList.add('success');
+  } catch (err) {
+    btn.innerHTML = '<i class="fas fa-times"></i>';
+    btn.classList.add('error');
+  } finally {
+    setTimeout(() => {
+      btn.innerHTML = '<i class="fas fa-copy"></i>';
+      btn.classList.remove('success', 'error');
+    }, 2000);
+  }
+}
+
+// Add loading state handler
+function handlePdfClick(btn) {
+  btn.classList.add('loading');
+  const btnText = btn.querySelector('.btn-text');
+  const originalText = btnText.textContent;
+  btnText.textContent = 'Loading...';
+  
+  setTimeout(() => {
+    btn.classList.remove('loading');
+    btnText.textContent = originalText;
+  }, 3000);
 }
 </script>
