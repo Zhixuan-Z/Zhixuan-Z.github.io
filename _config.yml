@@ -28,10 +28,10 @@ contact: >
 # Pages shown in navbar
 nav_pages:
   - name: about
-  #- name: publications
+  - name: projects
   #- name: talks
   - name: research
-  - name: projects
+  #- name: projects
   #- name: team
   - name: teaching
   #- name: blogs
